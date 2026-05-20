@@ -111,16 +111,6 @@ cp -rf ./configs/.claude/* $HOME/.claude/
 
 mkdir -p $HOME/repos
 
-# ---------- Cron (idempotent, unchanged) ----------
-DOTFILES_DIR_CRON="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CRON_CMD="0 1 * * * $DOTFILES_DIR_CRON/bootstrap.sh >> /tmp/bootstrap-cron.log 2>&1"
-if ! crontab -l 2>/dev/null | grep -qF "bootstrap.sh"; then
-    (crontab -l 2>/dev/null; echo "$CRON_CMD") | crontab -
-    echo "Cron job added for daily bootstrap at 1am."
-else
-    echo "Cron job for daily bootstrap already exists."
-fi
-
 # ---------- Post-bootstrap hook ----------
 POST_BOOTSTRAP="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/post-bootstrap.sh"
 if [ -x "$POST_BOOTSTRAP" ]; then
