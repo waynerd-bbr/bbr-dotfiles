@@ -1,0 +1,3 @@
+[submodule "claude-plugins/coding-development"]
+	path = claude-plugins/coding-development
+	url = https://github.com/WayneBanksy/wayneys_claude.git

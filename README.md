@@ -69,6 +69,46 @@ The following tools are installed via the `Brewfile`:
 4. `git rebase -i upstream/main`
 5. `git push origin main --force-with-lease`
 
+## Fork Additions (Wayne Banks II)
+
+This fork adds Claude Code plugin integration via git submodule. The `post-bootstrap.sh` script runs automatically at the end of `bootstrap.sh` and:
+
+- Initializes the `claude-plugins/coding-development` submodule
+- Symlinks the plugin to `~/.claude/plugins/coding-development`
+- Creates `~/.gitconfig.local` with your git identity (overrides the upstream `.gitconfig`)
+- Creates `~/.zshrc.local` with `GIT_COMMIT_AUTHOR` override
+- Appends `.zshrc.local` sourcing to `~/.zshrc` (idempotent)
+
+### Updating the Plugin
+
+```shell
+cd claude-plugins/coding-development
+git pull origin main
+cd ../..
+git add claude-plugins/coding-development
+git commit -m "chore: update coding-development plugin"
+```
+
+Or in one step:
+```shell
+git submodule update --remote claude-plugins/coding-development
+```
+
+### Workspace Health Check
+
+```shell
+./workspace-health.sh
+```
+
+Validates: Claude Code install, plugin symlink, plugin.json, skills directory, submodule status, git identity, API key, .zshrc.local sourcing, cron job.
+
+### Troubleshooting
+
+- **Submodule empty after clone**: Run `git submodule update --init --recursive`
+- **Symlink broken**: Delete `~/.claude/plugins/coding-development` and re-run `./post-bootstrap.sh`
+- **Git identity wrong**: Check `~/.gitconfig.local` exists and has your name/email
+- **ANTHROPIC_API_KEY missing**: Set via Coder workspace env vars, not in dotfiles
+
 ## Notes
 - This setup assumes you are running Linux (Ubuntu). Some steps may need to be adjusted for other operating systems.
 - Also, need to install a [Nerd Font](https://www.nerdfonts.com/font-downloads) to see all the cool icons.
