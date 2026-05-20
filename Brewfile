@@ -1,6 +1,6 @@
 # === Taps ===
 tap "hashicorp/tap"
-tap "terraform-linters/tflint"          # ADDED: tflint needs its own tap
+# tap "terraform-linters/tflint"          # ADDED: tflint needs its own tap
 
 # === Build dependencies (pyenv/python) ===
 brew "gcc"
@@ -76,7 +76,7 @@ brew "snowflake-cli"
 # === Cloud & infra ===
 brew "azure-cli"
 brew "hashicorp/tap/terraform"
-brew "terraform-linters/tflint/tflint"  # CHANGED: fully qualified tap path
+# brew "terraform-linters/tflint/tflint"  # CHANGED: fully qualified tap path
 
 # === Languages & runtimes ===
 brew "node"
